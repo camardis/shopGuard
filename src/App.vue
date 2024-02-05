@@ -1,15 +1,18 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <LoginAuthentGuard />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LoginAuthentGuard from './components/LoginAuthentGuard.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LoginAuthentGuard,
   }
 }
 </script>

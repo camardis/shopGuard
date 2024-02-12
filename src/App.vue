@@ -1,29 +1,47 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
   <div id="app">
-    <LoginAuthentGuard />
+    <AppNavbar @login-clicked="openLoginModal"/>
+    <router-view />
+    <AuthentGuardLogin v-if="showModal" @close-modal="closeLoginModal"/>
   </div>
 </template>
 
 <script>
-import LoginAuthentGuard from './components/LoginAuthentGuard.vue';
+import AppNavbar from './components/Navbar.vue';
+import AuthentGuardLogin from './components/Login.vue';
 
 export default {
   name: 'App',
   components: {
-    LoginAuthentGuard,
+    AppNavbar,
+    AuthentGuardLogin,
+  },
+  data() {
+    return {
+      showModal: false // Flag to control the visibility of the login modal
+    };
+  },
+  methods: {
+    openLoginModal() {
+      // Show the login modal when the login button is clicked
+      this.showModal = true;
+    },
+    closeLoginModal() {
+      // Close the login modal when it's closed
+      this.showModal = false;
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  background-image: url('./assets/CamardisLogoUsable.png'); /* Adjust the path as needed */
+  background-size: cover; /* Cover the entire element */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Do not repeat the background image */
+  margin: 0; /* Remove default body margin */
+  padding: 0; /* Remove default body padding */
+  height: 100vh; /* Set the body height to 100% of the viewport height */
 }
 </style>

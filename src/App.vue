@@ -1,20 +1,18 @@
+<!-- Compoents/App.vue -->
 <template>
   <div id="app">
     <AppNavbar @login-clicked="openLoginModal"/>
     <router-view />
-    <AuthentGuardLogin v-if="showModal" @close-modal="closeLoginModal"/>
   </div>
 </template>
 
 <script>
 import AppNavbar from './components/Navbar.vue';
-import AuthentGuardLogin from './components/Login.vue';
 
 export default {
   name: 'App',
   components: {
     AppNavbar,
-    AuthentGuardLogin,
   },
   data() {
     return {
@@ -24,17 +22,22 @@ export default {
   methods: {
     openLoginModal() {
       // Show the login modal when the login button is clicked
+      console.log("The button press is resived")
       this.showModal = true;
     },
-    closeLoginModal() {
-      // Close the login modal when it's closed
-      this.showModal = false;
-    }
   }
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "karla", sans-serif;
+}
+
 body {
   background-image: url('./assets/CamardisLogoUsable.png'); /* Adjust the path as needed */
   background-size: cover; /* Cover the entire element */

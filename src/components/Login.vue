@@ -2,8 +2,9 @@
 <template>
   <div class="modal" v-if="modalActive">
     <div class="modal-content">
-      <h2>Welcome back</h2>
-      <p>Don't have an account? <a href="#">Sign Up</a></p>
+      <i class="fa-regular fa-circle-xmark" @click="closeModal"></i>
+      <h2 class="main-text">Welcome back</h2>
+      <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
       <form @submit.prevent="login">
         <div class="form-group">
           <label for="email">Email address</label>
@@ -48,15 +49,16 @@ export default {
     },
     closeModal() {
       // Close the modal
-      this.$emit('close');
+      this.$emit('close-modal');
       console.log("$emit is being called");
     }
   }
 };
 </script>
 
-<style scoped>
-/* Modal styles */
+<style lang="scss" scoped>
+@import '../styles/colors.scss';
+
 .modal {
   position: fixed;
   z-index: 1;
@@ -65,11 +67,11 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: var(--modalbackground-color);
 }
 
 .modal-content {
-  background-color: #fefefe;
+  background-color: var(--background-color);
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
@@ -78,13 +80,30 @@ export default {
   border-radius: 8px;
 }
 
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.main-text {
+  margin-bottom: 5px;
+}
+
+.signup-link {
+  margin-bottom: 20px;
+}
+
 .form-group {
   margin-bottom: 20px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  color: var(--text-color);
 }
 
 input[type="email"],
@@ -98,21 +117,22 @@ input[type="password"] {
 .forgot-password {
   display: block;
   margin-top: 10px;
+  color: var(--primary-color);
 }
 
 .login-btn {
-  background-color: #4CAF50;
+  background-color: var(--primary-color);
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .login-btn:hover {
-  background-color: #45a049;
+  background-color: #a04545;
 }
 
 .close {
@@ -130,4 +150,3 @@ input[type="password"] {
   cursor: pointer;
 }
 </style>
-

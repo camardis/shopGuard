@@ -35,24 +35,13 @@ export default {
 }
 </script>
 
-<style scoped>
-/* Add your navbar styling here */
-.login-button {
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  padding: 20px 20px;
-  transition: background-color 0.3s ease;
-}
+<style lang="scss" scoped>
+@import '../styles/colors.scss';
 
-.login-button:hover {
-  background-color: #555;
-}
-
+/* Navbar styling */
 nav {
-  background-color: #333;
-  color: #fff;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
   width: 100%;
   height: 60px;
 }
@@ -61,18 +50,32 @@ ul {
   list-style-type: none;
   padding: 0;
   display: flex;
-  height: 100%; /* Make the ul take up the full height of the nav */
-  align-items: center; /* Vertically center the list items */
+  height: 100%;
+  align-items: center;
 }
 
 .nav-link {
-  color: #fff;
+  color: var(--text-color);
   text-decoration: none;
   padding: 20px 20px;
   transition: background-color 0.3s ease;
 }
 
 .nav-link:hover {
-  background-color: #555;
+  background-color: var(--primary-color);
+}
+
+.login-button {
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 0 10px; /* Adjust margin as needed */
+  border-radius: 5px; /* Add border-radius */
+}
+
+.login-button:hover {
+  background-color: var(--accent-color);
 }
 </style>

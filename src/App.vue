@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
 *{
   margin: 0;
@@ -37,7 +37,7 @@ export default {
   box-sizing: border-box;
   font-family: "karla", sans-serif;
 }
-
+@import '../src/styles/colors.scss';
 body {
   background-image: url('./assets/CamardisLogoUsable.png'); /* Adjust the path as needed */
   background-size: cover; /* Cover the entire element */

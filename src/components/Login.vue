@@ -2,8 +2,7 @@
 <template>
   <div class="modal" v-if="modalActive">
     <div class="modal-content">
-      <i class="fa-regular fa-circle-xmark" @click="closeModal"></i>
-      <h2 class="main-text">Welcome back</h2>
+      <h2 class="main-text">Welcome back <i class="fa-regular fa-circle-xmark close-icon" @click="closeModal"></i></h2>
       <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
       <form @submit.prevent="login">
         <div class="form-group">
@@ -81,15 +80,21 @@ export default {
 }
 
 .close-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   font-size: 20px;
   cursor: pointer;
+  transition: transform 0.2s; /* Add transition for smooth press effect */
+}
+
+.close-icon:hover {
+  transform: scale(1.1); /* Increase size on hover for press effect */
 }
 
 .main-text {
   margin-bottom: 5px;
+}
+
+.main-text .close-icon {
+  margin-left: 166px; /* Adjust margin to create space between text and icon */
 }
 
 .signup-link {

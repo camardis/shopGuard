@@ -3,7 +3,7 @@
   <nav>
     <ul>
       <li><router-link to="/" class="nav-link">Home</router-link></li>
-      <li><button @click="openLoginModal">Login</button></li>
+      <li><button @click="openLoginModal" class="login-button">Login</button></li>
     </ul>
     <AuthentGuardLogin :modalActive="modalActive" @close-modal="closeLoginModal"/>
   </nav>
@@ -62,7 +62,7 @@ ul {
 }
 
 .nav-link:hover {
-  background-color: var(--primary-color);
+  background-color: var(--background-color);
 }
 
 .login-button {

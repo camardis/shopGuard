@@ -14,7 +14,8 @@
   };
   </script>
   
-  <style scoped>
+  <style lang="scss" scoped>
   /* Add your component-specific styles here */
+  // make this full primarycoloer
   </style>
   

@@ -3,7 +3,7 @@
   <div class="modal" v-if="modalActive">
     <div class="modal-content">
       <h2 class="main-text">Welcome back <i class="fa-regular fa-circle-xmark close-icon" @click="closeModal"></i></h2>
-      <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
+      <p class="signup-link">Don't have an account? <router-link to="/signup" @click="closeModal">Sign In</router-link></p>
       <form @submit.prevent="login">
         <div class="form-group">
           <label for="email">Email address</label>
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import axios from '../plugins/axios';
+
 export default {
   name: 'AuthentGuardLogin',
   props: {
@@ -36,10 +38,20 @@ export default {
     async login() {
       try {
         // Perform login logic here
-        console.log('Login successful');
-
-        // Close the modal after successful login
-        this.closeModal();
+        // used axios to make a post request to the server
+        const response = await axios.post('Auth/Login', {
+          email: this.email,
+          password: this.password
+        });
+        if (response.status === 200)
+        {
+          console.log('Login successful');
+          // Close the modal after successful login
+          this.closeModal();
+        }
+        else{
+          console.log('Login failed');
+        }
       } catch (error) {
         // Handle login error
         console.error('Login failed:', error);
@@ -126,8 +138,8 @@ input[type="password"] {
 }
 
 .login-btn {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: var(--button-color);
+  color: var(--text-color);
   padding: 10px 20px;
   border: none;
   border-radius: 5px;

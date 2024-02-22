@@ -66,9 +66,9 @@ ul {
 }
 
 .login-button {
-  background-color: var(--primary-color);
+  background-color: var(--button-color);
   border: none;
-  color: white;
+  color: var(--text-color);
   cursor: pointer;
   padding: 10px 20px;
   margin: 0 10px; /* Adjust margin as needed */

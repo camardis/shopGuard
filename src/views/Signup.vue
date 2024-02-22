@@ -39,16 +39,13 @@
     },
     methods: {
       async submitForm() {
-        
-      },
-      async signUp() {
-        const response = await axios.post('Register/signup', formData);
+        const response = await axios.post('/Register/signup', this.formData);
         if (response.status === 200) {
           console.log('Signup successful');
         } else {
           console.log('Signup failed');
         }
-      }
+      },
     }
   };
   </script>

@@ -45,9 +45,9 @@ export default {
         });
         if (response.status === 200)
         {
-          localStorage.setItem('token', response.data.token);
-          console.log('Login successful');
-          this.$root.$emit('userLoggedIn');
+          localStorage.setItem('jwt_token', response.data.token);
+          console.log('$emit Login-successful');
+          this.$emit('login-successful');
           // Close the modal after successful login
           this.closeModal();
         }

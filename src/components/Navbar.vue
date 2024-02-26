@@ -1,3 +1,4 @@
+<!--Navbar.vue-->
 <template>
   <nav>
     <ul>
@@ -6,13 +7,14 @@
       <li v-else><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li> <!-- Add link to Dashboard -->
       <li v-if="isAuthenticated"><button @click="logout" class="login-button">Logout</button></li> <!-- Add logout button -->
     </ul>
-    <AuthentGuardLogin :modalActive="modalActive" @close-modal="closeLoginModal"/>
+    <AuthentGuardLogin :modalActive="modalActive" @close-modal="closeLoginModal" @login-successful="checkAuthState"/>
   </nav>
 </template>
 
 <script>
 import AuthentGuardLogin from '../components/Login.vue';
 import axios from '../plugins/axios'; // Import axios for API requests
+
 
 export default {
   name: 'AppNavbar',
@@ -68,6 +70,10 @@ export default {
       // this.$router.push('/login');
     }
   },
+  created() {
+    // Check the authentication state when the component is created
+    this.checkAuthState();
+  }
 }
 </script>
 

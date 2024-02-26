@@ -1,54 +1,143 @@
 <template>
-    <div class="signup-page">
-      <div class="signup-form">
-        <h1 class="main-text">Welcome</h1>
-        <p class="sigin-link">Already have an account? <router-link to="/signin">Sign In</router-link></p>
-  
-        <form @submit.prevent="submitForm">
-          <div class="form-group">
-            <label for="email">Email address</label>
-            <div class="input-wrapper">
-              <input type="email" id="email" v-model="formData.Email" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <div class="input-wrapper">
-              <input type="password" id="password" v-model="formData.Password" required>
-            </div>
-          </div>
-  
-          <button type="submit" class="btn btn-primary">GET STARTED</button>
-        </form>
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  import axios from '../plugins/axios';
+  <div class="signup-page">
+    <div class="signup-form">
+      <h1 class="main-text">Welcome</h1>
+      <p class="sigin-link">Already have an account? <router-link to="/signin">Sign In</router-link></p>
 
-  export default {
-    name: 'SignupPage',
-    data() {
-      return {
-        formData: {
-          Email: '',
-          Password: ''
-        }
-      };
-    },
-    methods: {
-      async submitForm() {
-        const response = await axios.post('/Register/signup', this.formData);
-        if (response.status === 200) {
-          console.log('Signup successful');
-        } else {
-          console.log('Signup failed');
-        }
+      <form @submit.prevent="submitForm">
+        <!-- Email field with custom alert message -->
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <div class="input-wrapper">
+            <input type="email" id="email" v-model="formData.email">
+          </div>
+          <!-- Display custom alert message -->
+          <div v-if="formErrors.email" class="alert-message">{{ formErrors.email }}</div>
+        </div>
+
+        <!-- Password field -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" v-model="formData.password">
+          </div>
+          <div v-if="formErrors.password" class="alert-message">{{ formErrors.password }}</div>
+        </div>
+
+        <!-- Confirm Password field with custom alert message -->
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="confirm-password" v-model="confirmPassword">
+          </div>
+          <!-- Display custom alert message -->
+          <div v-if="formErrors.confirmPassword" class="alert-message">{{ formErrors.confirmPassword }}</div>
+        </div>
+
+        <!-- Checkbox for terms and conditions -->
+        <div class="form-group">
+          <div class="input-wrapper">
+            <input type="checkbox" id="terms" v-model="formData.agreeToTerms">
+            <label for="terms">I agree to the terms and conditions</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">GET STARTED</button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from '../plugins/axios';
+
+export default {
+  name: 'SignupPage',
+  data() {
+    return {
+      formData: {
+        email: '',
+        password: ''
       },
+      confirmPassword: '',
+      formErrors: {
+        email: '',
+        password: '',
+        confirmPassword: ''
+      }
+    };
+  },
+  methods: {
+    async submitForm() {
+      // Check if passwrord match
+      this.checkPasswords();
+
+      // Validate form before submitting
+      if (!this.validateForm()) {
+        // If form validation fails, prevent form submission
+        return;
+      }
+      else {
+        // If form validation passes, submit the form
+        try {
+          // Send a POST request to the server
+          const response = await axios.post('/Register/signup', this.formData);
+          if(response.status === 200){
+            // Set JWT to local storage after successful signup
+            localStorage.setItem('token', response.data.token);
+            
+            // Redirect to the home page after successful signup
+            this.$router.push('/home');
+          }
+        } catch (error) {
+          // Log the error to the console
+          console.error('Error:', error);
+        }
+      }
+      
+      // Form submission logic
+      // This is where you can submit the form data using axios
+    },
+    checkPasswords() {
+      // Check if passwords match
+      this.formErrors.confirmPassword = this.formData.Password !== this.confirmPassword ? 'Passwords do not match' : '';
+    },
+    validateEmail(){
+      // Regular expression pattern for validating email address
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailPattern.test(this.formData.email);
+    },
+    validateForm() {
+      // Reset form errors
+      this.formErrors = { email: '', password: '', confirmPassword: '' };
+
+      // Validate email field
+      if (!this.formData.email) {
+        this.formErrors.email = 'Email address is required';
+      } else if(!this.validateEmail(this.formData.email)){
+        this.formErrors.email = 'Invalid email address';
+      }
+
+      // Validate password field
+      if(!this.formData.password){
+        this.formErrors.password = 'Password is required';
+      } else if(this.formData.password.length < 8){
+        this.formErrors.confirmPassword = 'Password must be at least 8 characters';
+      } else if(this.formData.password.length > 20){
+        this.formErrors.confirmPassword = 'Password must be at most 20 characters';
+      }
+
+      // Validate confirm password field
+      if (this.formData.password !== this.confirmPassword) {
+        this.formErrors.confirmPassword = 'Passwords do not match';
+      }
+
+      // Check if any form errors exist
+      return !Object.values(this.formErrors).some(error => error !== '');
     }
-  };
-  </script>
+  }
+};
+</script>
   
   <style lang="scss" scoped>
   /* Ensure HTML and body take up the full viewport height */
@@ -106,6 +195,10 @@
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
+  }
+
+  .input-wrapper input[type="checkbox"] {
+  margin-right: 15px; 
   }
   
   button {

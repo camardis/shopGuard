@@ -1,0 +1,22 @@
+<!-- views/Dashboard.vue -->
+
+<template>
+    <div class="dashboard">
+      <h1>Welcome to the Dashboard!</h1>
+      <!-- Add your dashboard content here -->
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: 'DashboardPage'
+  };
+  </script>
+  
+  <style scoped>
+  /* Add styling for your dashboard page */
+  .dashboard {
+    /* Add your styles */
+  }
+  </style>
+  

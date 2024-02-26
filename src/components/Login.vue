@@ -45,6 +45,7 @@ export default {
         });
         if (response.status === 200)
         {
+          localStorage.setItem('token', response.data.token);
           console.log('Login successful');
           // Close the modal after successful login
           this.closeModal();

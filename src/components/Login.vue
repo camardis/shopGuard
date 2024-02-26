@@ -4,7 +4,7 @@
     <div class="modal-content">
       <h2 class="main-text">Welcome back <i class="fa-regular fa-circle-xmark close-icon" @click="closeModal"></i></h2>
       <p class="signup-link">Don't have an account? <router-link to="/signup" @click="closeModal">Sign In</router-link></p>
-      <form @submit.prevent="login">
+      <form @submit.prevent="loginUser">
         <div class="form-group">
           <label for="email">Email address</label>
           <input type="email" id="email" v-model="email" required />
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import axios from '../plugins/axios';
+import loginService from '../../services/loginService';
 
 export default {
   name: 'AuthentGuardLogin',
@@ -35,35 +35,22 @@ export default {
     };
   },
   methods: {
-    async login() {
+    async loginUser() {
       try {
-        // Perform login logic here
-        // used axios to make a post request to the server
-        const response = await axios.post('Auth/Login', {
-          email: this.email,
-          password: this.password
-        });
-        if (response.status === 200)
-        {
-          localStorage.setItem('jwt_token', response.data.token);
-          console.log('$emit Login-successful');
+        const token = await loginService.login(this.email, this.password);
+        if (token) {
           this.$emit('login-successful');
-          // Close the modal after successful login
           this.closeModal();
-        }
-        else{
+        } else {
           console.log('Login failed');
         }
       } catch (error) {
-        // Handle login error
         console.error('Login failed:', error);
       }
       this.$emit('close-modal');
     },
     closeModal() {
-      // Close the modal
       this.$emit('close-modal');
-      console.log("$emit is being called");
     }
   }
 };

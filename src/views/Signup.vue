@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import axios from '../plugins/axios';
+import signupService from '../../services/signupService';
 
 export default {
   name: 'SignupPage',
@@ -57,7 +57,8 @@ export default {
     return {
       formData: {
         email: '',
-        password: ''
+        password: '',
+        agreeToTerms: false
       },
       confirmPassword: '',
       formErrors: {
@@ -69,43 +70,26 @@ export default {
   },
   methods: {
     async submitForm() {
-      // Check if passwrord match
-      this.checkPasswords();
-
-      // Validate form before submitting
+      // Form validation logic
       if (!this.validateForm()) {
         // If form validation fails, prevent form submission
         return;
       }
-      else {
-        // If form validation passes, submit the form
-        try {
-          // Send a POST request to the server
-          const response = await axios.post('/Register/signup', this.formData);
-          if(response.status === 200){
-            // Set JWT to local storage after successful signup
-            localStorage.setItem('token', response.data.token);
-            
-            // Redirect to the home page after successful signup
-            this.$router.push('/home');
-          }
-        } catch (error) {
-          // Log the error to the console
-          console.error('Error:', error);
+
+      try {
+        // Call signup service
+        const token = await signupService.signup(this.formData);
+        if (token) {
+          // Signup successful
+          this.$router.push('/home'); // Redirect to home page
+        } else {
+          // Handle signup failure
+          console.error('Signup failed');
         }
+      } catch (error) {
+        // Handle signup error
+        console.error('Signup error:', error);
       }
-      
-      // Form submission logic
-      // This is where you can submit the form data using axios
-    },
-    checkPasswords() {
-      // Check if passwords match
-      this.formErrors.confirmPassword = this.formData.Password !== this.confirmPassword ? 'Passwords do not match' : '';
-    },
-    validateEmail(){
-      // Regular expression pattern for validating email address
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailPattern.test(this.formData.email);
     },
     validateForm() {
       // Reset form errors
@@ -114,17 +98,17 @@ export default {
       // Validate email field
       if (!this.formData.email) {
         this.formErrors.email = 'Email address is required';
-      } else if(!this.validateEmail(this.formData.email)){
+      } else if (!this.validateEmail(this.formData.email)) {
         this.formErrors.email = 'Invalid email address';
       }
 
       // Validate password field
-      if(!this.formData.password){
+      if (!this.formData.password) {
         this.formErrors.password = 'Password is required';
-      } else if(this.formData.password.length < 8){
-        this.formErrors.confirmPassword = 'Password must be at least 8 characters';
-      } else if(this.formData.password.length > 20){
-        this.formErrors.confirmPassword = 'Password must be at most 20 characters';
+      } else if (this.formData.password.length < 8) {
+        this.formErrors.password = 'Password must be at least 8 characters';
+      } else if (this.formData.password.length > 20) {
+        this.formErrors.password = 'Password must be at most 20 characters';
       }
 
       // Validate confirm password field
@@ -134,6 +118,11 @@ export default {
 
       // Check if any form errors exist
       return !Object.values(this.formErrors).some(error => error !== '');
+    },
+    validateEmail(email) {
+      // Regular expression pattern for validating email address
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailPattern.test(email);
     }
   }
 };

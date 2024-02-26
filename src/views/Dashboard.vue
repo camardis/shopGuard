@@ -14,6 +14,12 @@
   </script>
   
   <style scoped>
+  html, body {
+    height: 100%;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+  }
+
   /* Add styling for your dashboard page */
   .dashboard {
     /* Add your styles */

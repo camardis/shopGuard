@@ -47,6 +47,7 @@ export default {
         {
           localStorage.setItem('token', response.data.token);
           console.log('Login successful');
+          this.$root.$emit('userLoggedIn');
           // Close the modal after successful login
           this.closeModal();
         }

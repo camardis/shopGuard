@@ -2,9 +2,9 @@
   <nav>
     <ul>
       <li><router-link to="/" class="nav-link">Home</router-link></li>
-      <li v-if="!isLoggedIn"><button @click="openLoginModal" class="login-button">Login</button></li>
+      <li v-if="!isAuthenticated"><button @click="openLoginModal" class="login-button">Login</button></li>
       <li v-else><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li> <!-- Add link to Dashboard -->
-      <li v-if="isLoggedIn"><button @click="logout" class="login-button">Logout</button></li> <!-- Add logout button -->
+      <li v-if="isAuthenticated"><button @click="logout" class="login-button">Logout</button></li> <!-- Add logout button -->
     </ul>
     <AuthentGuardLogin :modalActive="modalActive" @close-modal="closeLoginModal"/>
   </nav>
@@ -33,26 +33,29 @@ export default {
       this.modalActive = false;
     },
     async checkAuthState() {
-      try {
+    try {
         // Check if the user is authenticated using the JWT token
         const token = localStorage.getItem('jwt_token');
+        console.log('token:', token);
         if (token) {
-          // If token exists, send a request to the server to validate it
-          const response = await axios.post('/check-auth', { token });
-          if (response.status === 200) {
-            // User is authenticated
-            this.isAuthenticated = true;
-          } else {
-            // Token is invalid or expired
-            this.isAuthenticated = false;
-          }
+            // If token exists, send a request to the server to validate it
+            const response = await axios.post('/Auth/check-auth', { token });
+            if (response.status === 200) {
+                // User is authenticated
+                console.log('User is authenticated');
+                this.isAuthenticated = true; // Update isAuthenticated here
+            } else {
+                // Token is invalid or expired
+                console.error('Authentication failed:', response.data);
+                this.isAuthenticated = false; // Ensure isAuthenticated is set to false
+            }
         } else {
-          // Token does not exist
-          this.isAuthenticated = false;
+            // Token does not exist
+            this.isAuthenticated = false; // Ensure isAuthenticated is set to false
         }
-      } catch (error) {
+    } catch (error) {
         console.error('Error checking authentication state:', error);
-        this.isAuthenticated = false;
+        this.isAuthenticated = false; // Ensure isAuthenticated is set to false
       }
     },
     logout() {
@@ -65,10 +68,6 @@ export default {
       // this.$router.push('/login');
     }
   },
-  created() {
-    // Check authentication state when the component is created
-    this.checkAuthState();
-  }
 }
 </script>
 

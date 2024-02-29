@@ -22,7 +22,14 @@
 
   /* Add styling for your dashboard page */
   .dashboard {
-    /* Add your styles */
+    /* Center content vertically and horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Set background color */
+    background-color: var(--background-color);
+    /* Ensure the background covers the entire viewport */
+    min-height: 100vh;
   }
   </style>
   

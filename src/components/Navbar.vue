@@ -1,44 +1,40 @@
-<!--Navbar.vue-->
+<!--components/Navbar.vue-->
 <template>
   <nav>
     <ul>
       <li><router-link to="/" class="nav-link">Home</router-link></li>
-      <li v-if="!isAuthenticated"><button @click="openLoginModal" class="login-button">Login</button></li>
-      <li v-else><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li>
-      <li v-if="isAuthenticated"><button @click="logout" class="login-button">Logout</button></li>
+      <li v-if="!isAuthenticated"><router-link to="/login" class="nav-link">Login</router-link></li>
+      <li v-if="isAuthenticated"><button @click="logout" class="nav-link">Logout</button></li>
+      <li v-if="isAuthenticated"><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li>
     </ul>
-    <AuthentGuardLogin :modalActive="modalActive" @close-modal="closeLoginModal" @login-successful="checkAuthState"/>
   </nav>
 </template>
 
 <script>
-import AuthentGuardLogin from '../components/Login.vue';
-import { mapState, mapActions } from 'vuex';
+import authService from '../../services/authService';
 
 export default {
   name: 'AppNavbar',
-  components: {
-    AuthentGuardLogin,
-  },
-  computed: {
-    ...mapState(['isAuthenticated']),
-  },
   data() {
     return {
-      modalActive: false,
-    }
+      authenticated: false
+    };
+  },
+  async created() {
+    // Check authentication status when the component is created
+    await this.checkAuthentication();
   },
   methods: {
-    ...mapActions(['logout', 'checkAuthState']),
-    openLoginModal() {
-      this.modalActive = true;
+    async checkAuthentication() {
+      // Call your authService or any authentication service
+      const authentication = await authService.checkAuth(localStorage.getItem('jwt_token'));
+      // Update the data property based on the authentication result
+      this.authenticated = authentication;
     },
-    closeLoginModal() {
-      this.modalActive = false;
-    },
-  },
-  created() {
-    this.checkAuthState();
+    logout() {
+      localStorage.removeItem('jwt_token');
+      this.$router.push('/home');
+    }
   }
 }
 </script>

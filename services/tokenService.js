@@ -4,10 +4,13 @@ import axios from '../src/plugins/axios';
 const tokenService = {
   async login(email, password) {
     const response = await axios.post('/Auth/login', { email, password });
-    console.log('axios request url: ', response.config.url)
-    const { token } = response.data;
-    localStorage.setItem('jwt_token', token);
-    return token;
+    if(response.status == 200){
+      console.log('axios request url: ', response.config.url)
+      const { token } = response.data;
+      localStorage.setItem('jwt_token', token);
+      return token;
+    }
+    return null;
   },
   
   logout() {

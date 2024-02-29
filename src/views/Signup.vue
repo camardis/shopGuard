@@ -1,8 +1,9 @@
+<!--views/Signup.vue-->
 <template>
   <div class="signup-page">
     <div class="signup-form">
-      <h1 class="main-text">Welcome</h1>
-      <p class="sigin-link">Already have an account? <router-link to="/signin">Sign In</router-link></p>
+      <h1 class="main-text">Welcome to Shop Guard</h1>
+      <p class="sigin-link">Already have an account? <router-link to="/login">login</router-link></p>
 
       <form @submit.prevent="submitForm">
         <!-- Email field with custom alert message -->

@@ -6,9 +6,10 @@ const authService = {
       // Use a different name for the response variable to avoid conflict
       const response = await axios.post('/Auth/check-auth', { token });
       // Change the variable name in the destructuring assignment
-      const { token: authToken } = response.data;
-      localStorage.setItem('jwt_token', authToken);
-      return authToken;
+      if(response.status === 200) {
+        return true;
+      }
+      return false;
     } catch (error) {
       throw error.response.data.message;
     }

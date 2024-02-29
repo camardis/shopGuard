@@ -3,9 +3,9 @@
   <nav>
     <ul>
       <li><router-link to="/" class="nav-link">Home</router-link></li>
-      <li v-if="!isAuthenticated"><router-link to="/login" class="nav-link">Login</router-link></li>
-      <li v-if="isAuthenticated"><button @click="logout" class="nav-link">Logout</button></li>
-      <li v-if="isAuthenticated"><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li>
+      <li v-if="!authenticated"><router-link to="/login" class="nav-link">Login</router-link></li>
+      <li v-if="authenticated"><button @click="logout" class="nav-link">Logout</button></li>
+      <li v-if="authenticated"><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li>
     </ul>
   </nav>
 </template>
@@ -20,20 +20,29 @@ export default {
       authenticated: false
     };
   },
-  async created() {
-    // Check authentication status when the component is created
-    await this.checkAuthentication();
-  },
   methods: {
     async checkAuthentication() {
       // Call your authService or any authentication service
-      const authentication = await authService.checkAuth(localStorage.getItem('jwt_token'));
-      // Update the data property based on the authentication result
-      this.authenticated = authentication;
+      console.log('Checking authentication...', localStorage.getItem('jwt_token'));
+      if (localStorage.getItem('jwt_token') != null) {
+        const authentication = await authService.checkAuth(localStorage.getItem('jwt_token'));
+        // Update the data property based on the authentication result
+        this.authenticated = authentication;
+        console.log('Authenticated:', this.authenticated);
+      }    
     },
     logout() {
       localStorage.removeItem('jwt_token');
+      this.authenticated = false;
       this.$router.push('/home');
+    }
+  },
+  created() {
+    this.checkAuthentication();
+  },
+  watch: {
+    $route() {
+      this.checkAuthentication();
     }
   }
 }

@@ -141,7 +141,6 @@ export default {
     /* Center content vertically and horizontally */
     display: flex;
     justify-content: center;
-    align-items: center;
     /* Set background color */
     background-color: var(--background-color);
     /* Ensure the background covers the entire viewport */
@@ -149,7 +148,8 @@ export default {
   }
 
   .signup-form {
-    width: 400px;
+    padding-top: var(--form-padding-top);
+    width: var(--form-width);
   }
 
   .main-text{

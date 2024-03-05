@@ -20,8 +20,8 @@
             <input type="email" id="email" v-model="email" placeholder="Fx shop@example.dk">
           </div>
           <!-- email Error -->
-          <div class="error-message">
-            <p v-if="emailError" class="error-message">{{ emailError }}</p>
+          <div class="alert-message">
+            <p v-if="emailError" class="alert-message">{{ emailError }}</p>
           </div>
         </div>
 
@@ -32,8 +32,8 @@
             <input type="password" id="password" v-model="password" placeholder="**********">
           </div>
           <!-- password Error -->
-          <div class="error-message">
-            <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
+          <div class="alert-message">
+            <p v-if="passwordError" class="alert-message">{{ passwordError }}</p>
           </div>
         </div>
 
@@ -142,7 +142,7 @@
     width: var(--form-width);
   }
 
-  .error-message {
+  .alert-message {
     color: red;
   }
 

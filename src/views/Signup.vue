@@ -165,6 +165,10 @@ export default {
   .form-group {
     margin-bottom: 20px;
   }
+
+  .alert-message {
+    color: red;
+  }
   
   label {
     display: block;

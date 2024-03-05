@@ -142,6 +142,10 @@
     width: var(--form-width);
   }
 
+  .error-message {
+    color: red;
+  }
+
   .alert-message {
     color: red;
   }

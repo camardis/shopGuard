@@ -6,6 +6,7 @@
       <li v-if="!authenticated"><router-link to="/login" class="nav-link">Login</router-link></li>
       <li v-if="authenticated"><button @click="logout" class="nav-link">Logout</button></li>
       <li v-if="authenticated"><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li>
+      <li><router-link to="/Products" class="nav-link">Product Page</router-link></li>
     </ul>
   </nav>
 </template>

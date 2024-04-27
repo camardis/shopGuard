@@ -1,10 +1,10 @@
-import axios from '../src/plugins/axios';
+import { authGuard } from '../src/plugins/axios';
 
 const authService = {
   async checkAuth(token) {
     try {
       // Use a different name for the response variable to avoid conflict
-      const response = await axios.post('/Auth/check-auth', { token });
+      const response = await authGuard.post('/Auth/check-auth', { token });
       // Change the variable name in the destructuring assignment
       if(response.status === 200) {
         return true;

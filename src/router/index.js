@@ -4,7 +4,8 @@ import { createRouter, createWebHistory } from 'vue-router'; // Import createRou
 import Home from '../views/Home.vue';
 import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
-import Dashboard from '../views/Dashboard.vue'; // Import the Dashboard component
+import Dashboard from '../views/Dashboard.vue';
+import Product from '../views/products/Products.vue';
 
 // Create a new router instance using createRouter function
 const router = createRouter({
@@ -29,6 +30,11 @@ const router = createRouter({
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard
+    },
+    {
+      path: '/products',
+      name: 'Product',
+      component: Product
     }
   ]
 });

@@ -1,8 +1,8 @@
-import axios from '../src/plugins/axios';
+import { authGuard } from '../src/plugins/axios';
 
 const signup = async (formData) => {
   try {
-    const response = await axios.post('/Register/signup', formData);
+    const response = await authGuard.post('/Register/signup', formData);
     console.log(response);
     if (response.status === 200) {
       const { token } = response.data;

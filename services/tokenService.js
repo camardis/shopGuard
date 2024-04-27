@@ -1,10 +1,10 @@
 // services/tokenService.js
-import axios from '../src/plugins/axios';
+import { authGuard } from '../src/plugins/axios';
 
 const tokenService = {
   async login(email, password) {
     try {
-      const response = await axios.post('/Auth/login', { email, password });
+      const response = await authGuard.post('/Auth/login', { email, password });
       if (response.status === 200) {
         console.log('axios request url: ', response.config.url);
         const { token } = response.data;

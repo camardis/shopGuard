@@ -2,14 +2,38 @@
 
 <template>
     <div class="ProductPage">
-      <h1>Welcome to the Product Page!</h1>
-      <!-- Add your dashboard content here -->
+      <div v-if="Allproducts.length === 0">
+        <p>Loading products...</p>
+      </div>
+      <div v-else>
+        <ProductCard :products="Allproducts" /> 
+      </div>
     </div>
   </template>
   
   <script>
+  import { productGuard } from '../../plugins/axios.js';
+  import ProductCard from '../../components/ProductCard.vue';
+
   export default {
-    name: 'ProductPage'
+    name: 'ProductPage',
+    components: {
+      ProductCard,
+    },
+    data(){
+      return {
+        Allproducts: []
+      };
+    },
+    async created() {
+      try {
+        const response = await productGuard.get('/Products');
+        console.log('Products:', response.data);
+        this.Allproducts = response.data;
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    },
   };
   </script>
   

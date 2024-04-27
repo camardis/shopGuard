@@ -12,5 +12,3 @@ export const productGuard = axios.create({
   //baseURL: 'https://productguardapi-prod.azurewebsites.net/api', // prod
   timeout: 5000, // Set a reasonable timeout
 });
-
-export default axios;

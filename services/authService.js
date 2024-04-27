@@ -6,8 +6,11 @@ const authService = {
       // Use a different name for the response variable to avoid conflict
       const response = await authGuard.post('/Auth/check-auth', { token });
       // Change the variable name in the destructuring assignment
-      if(response.status === 200) {
+      if (response.status === 200) {
         return true;
+      }
+      if (response.status === 401) {
+        localStorage.removeItem('jwt_token');
       }
       return false;
     } catch (error) {

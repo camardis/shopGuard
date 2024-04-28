@@ -4,13 +4,13 @@
   <div class="ProductCard">
     <div v-for="product in products" :key="product.uuid">
       <div class="ProductCardItem">
-        <div>
-            <img :src="product.image" :alt="product.name" />
+        <div class="ProductCardImage">
+          <img :src="getProductImage(product)" :alt="product.name" />
         </div>
         <div>
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.shortDescription }}</p>
-            <p>{{ product.price }} €</p>
+          <h2>{{ product.name }}</h2>
+          <p>{{ product.shortDescription }}</p>
+          <h2>{{ product.price }} €</h2>
         </div>
       </div>
     </div>
@@ -23,10 +23,16 @@ export default {
   props: {
     products: {
       type: Object,
-      required: true
+      required: true,
     }
   },
   methods: {
+    getProductImage(product) {
+      if(product.image === "null" || product.image === null || product.image === "string") {
+        return require(`../assets/ProductImages/placeholder.png`);
+      }
+      return require(`../assets/ProductImages/${product.image}`);
+    }
   },
 };
 
@@ -47,6 +53,7 @@ export default {
   border-radius: 8px;
   padding: 20px;
   width: 300px;
+  height: 400px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -60,7 +67,7 @@ export default {
 
 .ProductCardItem img {
   max-width: 100%;
-  height: auto;
+  height: 200px;
   border-radius: 8px;
 }
 </style>

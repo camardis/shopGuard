@@ -3,10 +3,10 @@
   <nav>
     <ul>
       <li><router-link to="/" class="nav-link">Home</router-link></li>
-      <li v-if="!authenticated"><router-link to="/login" class="nav-link">Login</router-link></li>
-      <li v-if="authenticated"><button @click="logout" class="nav-link">Logout</button></li>
-      <li v-if="authenticated"><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li>
       <li><router-link to="/Products" class="nav-link">Product Page</router-link></li>
+      <li v-if="!authenticated"><router-link to="/login" class="log-button">Log in</router-link></li>
+      <li v-if="authenticated"><button @click="logout" class="log-button">Log out</button></li>
+      <li v-if="authenticated"><router-link to="/dashboard" class="nav-link">Dashboard</router-link></li>
     </ul>
   </nav>
 </template>
@@ -79,7 +79,7 @@ ul {
   background-color: var(--background-color);
 }
 
-.login-button {
+.log-button {
   background-color: var(--button-color);
   border: none;
   color: var(--text-color);
@@ -89,7 +89,8 @@ ul {
   border-radius: 5px; /* Add border-radius */
 }
 
-.login-button:hover {
-  background-color: var(--accent-color);
+.log-button:hover {
+  background-color: var(--background-color);
 }
+
 </style>
